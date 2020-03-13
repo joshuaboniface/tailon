@@ -2,7 +2,7 @@
 
 
 body {
-  font: 13px/1.5 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif;
+  font: 14px 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif;
   overflow: hidden;
   height: 100vh;
   background-color: $tailon-logview-background-color;
@@ -23,7 +23,7 @@ body {
   padding-top: 5px;
   padding-left: 5px;
   padding-right: 5px;
-  height: 30px;
+  height: 37px;
 
   display: flex;
   flex-direction: row;
@@ -36,7 +36,7 @@ body {
 
 .toolbar-item {
   /* height: 100%; */
-  height: 26px;
+  height: 32px;
   padding-right: 5px;
   flex: 0 0 auto;
   order: 0;
@@ -59,12 +59,12 @@ div #command-select {
   box-sizing: border-box;
   box-shadow: 2px 2px 2px 0px darken($tailon-toolbar-input-background-color, 10%);
 
-  height: 26px;
+  height: 32px;
 
   background: $tailon-toolbar-input-background-color;
   padding-right: 30px;
   position: relative;
-  font-size: 13px;
+  font-size: 14px;
 
   input {
     @extend .toolbar-widget;
@@ -76,12 +76,12 @@ div #command-select {
   }
 
   div {
-    line-height: 26px;
+    line-height: 32px;
     color: #888;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
-    cursor: hand;
+    // cursor: hand;
     display: block;
     position: absolute;
     right: 0;
@@ -111,11 +111,11 @@ div #command-select {
 
 .toolbar-text {
   font-family: $ttfonts;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .button-group {
-  height: 26px;
+  height: 32px;
   padding-right: 5px;
 
   a {
@@ -124,10 +124,11 @@ div #command-select {
 
     float: left;
     margin-right: 0;
-    height: 26px;
-    width: 26px;
+    height: 32px;
+    width: 40px;
     text-align: center;
     font-size: 1.5em;
+    padding-top: 3px;
 
     &:hover {
       @extend .toolbar-hover;
@@ -149,8 +150,8 @@ div #command-select {
     }
 
     svg {
-        width: 1em;
-        fill: #c5c8c6;
+      width: 1em;
+      fill: #c5c8c6;
     }
   }
 }
@@ -288,8 +289,8 @@ input::placeholder {
   .multiselect {
       text-align: center;
       font-family: $ttfonts;
-      line-height: 26px;
-      font-size: 13px;
+      line-height: 32px;
+      font-size: 14px;
       color: #c5c8c6;
       box-shadow: 2px 2px 2px 0px darken($tailon-toolbar-input-background-color, 10%);
       min-height: inherit;
@@ -333,7 +334,7 @@ input::placeholder {
   .multiselect__select {
       position: absolute;
       width: 40px;
-      height: 25px;
+      height: 30px;
       //right: -4px;
       top: 1px;
       padding: 4px 0px;
@@ -350,7 +351,7 @@ input::placeholder {
   }
 
   .multiselect__input, .multiselect__single {
-      font-size: 13px;
+      font-size: 14px;
       background-color: $tailon-toolbar-input-background-color;
       border: none;
       border-radius: 0;
