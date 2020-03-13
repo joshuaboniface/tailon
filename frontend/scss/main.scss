@@ -105,7 +105,8 @@ div #command-select {
 }
 
 .toolbar-hover {
-  background-color: lighten($tailon-toolbar-input-background-color, 5%);
+  background-color: lighten($tailon-toolbar-input-background-color, 20%);
+  cursor: pointer;
 }
 
 .toolbar-text {
@@ -130,6 +131,10 @@ div #command-select {
 
     &:hover {
       @extend .toolbar-hover;
+
+      svg {
+        fill: lighten(#c5c8c6, 20%);
+      }
     }
 
     &.selected {
