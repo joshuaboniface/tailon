@@ -114,6 +114,10 @@ var app = new Vue({
             console.log("sending msg: ", msg);
             this.clearLogview();
             this.socket.send(JSON.stringify(msg));
+        },
+        clearInput: function () {
+            this.script = "";
+            this.notifyBackend();
         }
     },
     watch: {
@@ -127,6 +131,10 @@ var app = new Vue({
             if (val && this.isConnected) {
                 this.script = this.commandScripts[val];
                 this.notifyBackend();
+                this.$nextTick(function () {
+                    this.$refs.script_input.select();
+                    this.$refs.script_input.focus();
+                })
             }
         },
         file: function (val) {
