@@ -2,13 +2,12 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/gorilla/handlers"
+
 	"github.com/bformet/tailon/cmd"
 	"github.com/bformet/tailon/frontend"
+	"github.com/gorilla/handlers"
+
 	// "frontend"
-	"github.com/shurcooL/httpfs/html/vfstemplate"
-	"github.com/shurcooL/httpgzip"
-	"gopkg.in/igm/sockjs-go.v2/sockjs"
 	"html/template"
 	"log"
 	"net/http"
@@ -16,6 +15,10 @@ import (
 	"os/exec"
 	"strconv"
 	"time"
+
+	"github.com/shurcooL/httpfs/html/vfstemplate"
+	"github.com/shurcooL/httpgzip"
+	"gopkg.in/igm/sockjs-go.v2/sockjs"
 )
 
 func setupRoutes(relativeroot string) *http.ServeMux {
@@ -115,6 +118,7 @@ func wsWriter(session sockjs.Session, messages chan string, done <-chan struct{}
 	var procB *cmd.Cmd
 
 	cmdOptions := cmd.Options{Buffered: false, Streaming: true}
+	logger := log.New(os.Stdout, "", log.LstdFlags)
 
 	for {
 		select {
@@ -143,13 +147,13 @@ func wsWriter(session sockjs.Session, messages chan string, done <-chan struct{}
 					actionA := config.CommandSpecs[stdinSource].Action
 					actionA = expandCommandArgs(actionA, msgJSON)
 					procA = exec.Command(actionA[0], actionA[1:]...)
-					log.Print("Running command: ", actionA)
+					logger.Print("Running command: ", actionA)
 				}
 
 				actionB := config.CommandSpecs[msgJSON.Command].Action
 				actionB = expandCommandArgs(actionB, msgJSON)
 				procB = cmd.NewCmdOptions(cmdOptions, actionB[0], actionB[1:]...)
-				log.Print("Running command: ", actionB)
+				logger.Print("Running command: ", actionB)
 
 				// Start streaming procB's stdout and stderr to the client.
 				go streamOutput(procA, procB, session)

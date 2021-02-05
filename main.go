@@ -3,15 +3,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/mitchellh/mapstructure"
-	"github.com/pelletier/go-toml"
-	flag "github.com/spf13/pflag"
 	"io/ioutil"
 	"log"
 	"net"
 	"os"
 	"strings"
 	"sync"
+
+	"github.com/mitchellh/mapstructure"
+	"github.com/pelletier/go-toml"
+	flag "github.com/spf13/pflag"
 )
 
 const scriptDescription = `
@@ -300,7 +301,8 @@ func main() {
 		config.CommandScripts[cmd] = values.Default
 	}
 
-	log.Print("Generate initial file listing")
+	logger := log.New(os.Stdout, "", log.LstdFlags)
+	logger.Print("Generate initial file listing")
 	createListing(config.FileSpecs)
 
 	var wg sync.WaitGroup
