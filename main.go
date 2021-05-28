@@ -92,6 +92,8 @@ const defaultTomlConfig = `
   allow-download = true
   allow-commands = ["tail", "grep", "sed", "awk"]
 
+  [files]
+
   [commands]
 
     [commands.tail]
@@ -120,7 +122,7 @@ type CommandSpec struct {
 	Default string
 }
 
-func parseTomlConfig(config string) (*toml.Tree, map[string]CommandSpec) {
+func parseTomlConfig(config string) (*toml.Tree, map[string]CommandSpec, []FileSpec) {
 	cfg, err := toml.Load(config)
 	if err != nil {
 		log.Fatal("Error parsing config: ", err)
@@ -138,7 +140,22 @@ func parseTomlConfig(config string) (*toml.Tree, map[string]CommandSpec) {
 		commands[key] = command
 	}
 
-	return cfg, commands
+	cfgFiles := cfg.Get("files").(*toml.Tree).ToMap()
+	filespecs := make([]FileSpec, 0)
+	for _, value := range cfgFiles {
+        if value == nil {
+            continue
+        }
+        strvalue := fmt.Sprint(value)
+		if file, err := parseFileSpec(strvalue); err != nil {
+			fmt.Fprintf(os.Stderr, "Error parsing argument '%s': %s\n", strvalue, err)
+			os.Exit(1)
+		} else {
+            filespecs = append(filespecs, file)
+		}
+	}
+
+	return cfg, commands, filespecs
 }
 
 // FileSpec is an instance of a file to be monitored. These are mapped to
@@ -212,7 +229,7 @@ type Config struct {
 }
 
 func makeConfig(configContent string) *Config {
-	defaults, commandSpecs := parseTomlConfig(configContent)
+	defaults, commandSpecs, fileSpecs := parseTomlConfig(configContent)
 
 	// Convert the list of bind addresses from []interface{} to []string.
 	addrsA := defaults.Get("listen-addr").([]interface{})
@@ -226,6 +243,7 @@ func makeConfig(configContent string) *Config {
 		RelativeRoot:  defaults.Get("relative-root").(string),
 		AllowDownload: defaults.Get("allow-download").(bool),
 		CommandSpecs:  commandSpecs,
+        FileSpecs:     fileSpecs,
 	}
 
 	mapstructure.Decode(defaults.Get("allow-commands"), &config.AllowCommandNames)
@@ -286,10 +304,9 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Error parsing argument '%s': %s\n", spec, err)
 			os.Exit(1)
 		} else {
-			filespecs = append(filespecs, filespec)
+			config.FileSpecs = append(filespecs, filespec)
 		}
 	}
-	config.FileSpecs = filespecs
 
 	if len(config.FileSpecs) == 0 {
 		fmt.Fprintln(os.Stderr, "No files specified on command-line or in config file")
