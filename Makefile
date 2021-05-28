@@ -15,7 +15,7 @@ frontend-watch:
 	cd frontend && $(MAKE) watch BUILD=$(BUILD)
 
 docker-build:
-	sudo docker build -t bformet/tailon .
+	sudo docker build -t joshuaboniface/tailon .
 
 README.md:
 	go build

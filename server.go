@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 
-	"github.com/bformet/tailon/cmd"
-	"github.com/bformet/tailon/frontend"
+	"github.com/joshuaboniface/tailon/cmd"
+	"github.com/joshuaboniface/tailon/frontend"
 	"github.com/gorilla/handlers"
 
 	// "frontend"
