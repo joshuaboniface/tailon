@@ -177,9 +177,9 @@ var app = new Vue({
         'command': null,
         'script': null,
 
-        'linesOfHistory': 2000,  // 0 for infinite history
+        'linesOfHistory': 5000,  // 0 for infinite history
         'linesToTail': 100,
-        'wrapLines': false,
+        'wrapLines': true,
 
         'hideToolbar': false,
         'showConfig': false,
