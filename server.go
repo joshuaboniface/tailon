@@ -47,9 +47,9 @@ func setupServer(config *Config, addr string, logger *log.Logger) *http.Server {
 		Addr:         addr,
 		Handler:      loggingRouter,
 		ErrorLog:     logger,
-		ReadTimeout:  5 * time.Second,
-		WriteTimeout: 10 * time.Second,
-		IdleTimeout:  15 * time.Second,
+		ReadTimeout:  60 * time.Second,
+		WriteTimeout: 60 * time.Second,
+		IdleTimeout:  300 * time.Second,
 	}
 
 	return &server
